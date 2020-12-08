@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Checkout</title>
+    <script src="https://kit.fontawesome.com/935c6e3df3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="top">
+        <a href="C:\Users\TREYBEELZ\Documents\GitHub\OZ-Foods\mealpage.html">Back</a>
+    <div class="logo">
+        <img src="../OZ-Foods/images/OZ.png" alt="logo" style="width: 20px; height: 20px;">
+    </div>
+    </div>
+
+    <div class="checkout">
+        <div class="check-header"><h1>Checkout</h1></div>
+        <div class="progress"><span><input type="checkbox" id="step-1">1-<h3>Ordering Address</h3></span> <span><input type="checkbox" id="step-2">2-<h3>Payment Online</h3></span></div>
+        <h5>Ordering Address</h5>
+        <div class="address" id="step1">
+            <form>
+                <div class="address-box">
+                    <label for="firstName">First Name</label><br>
+                    <input type="text" id="firstname" name="firstname" required>
+                </div><br>
+                <div class="address-box">
+                    <label for="lastName">Last Name</label><br>
+                    <input type="text" id="Lastname" name="lastname" required>
+                </div><br>
+                <div class="address-box">
+                <label for="phoneNumber">Phone</label><br>
+                <input type="text" id="phonenumber" name="phonemumber" required>
+                </div><br>
+                <div class="address-box">
+                    <label for="location">Location</label><br>
+                    <select name="location" id="locate-me">
+                        <option value="yaba">Yaba</option>
+                        <option value="victoria island">Victoria Island</option>
+                        <option value="ikoyi">Ikoyi</option>
+                        <option value="lekki">Lekki</option>
+                        <option value="banana island">Banana Island</option>
+                    </select>
+                </div>
+                <label for="address">Address</label><br>
+                <input type="text" id="home-address" name="home-address" required>
+            </form>
+        </div>
+
+        
+            
+            <div class="last-div">
+                <button style="border-radius: 2em;">Back to cart</button>
+                <button style="background: blue; border-radius: 2em;">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+    
+        <div class="checkout">
+            <div class="check-header"><h1>Checkout</h1></div>
+            <div class="progress"><span><input type="checkbox" id="step-1">1-<h3>Ordering Address</h3></span> <span><input type="checkbox" id="step-2">2-<h3>Payment Online</h3></span></div>
+            <h3>Ordering Summary</h3>
+            <div class="payment" id="step2">
+                <form>
+                    <div class="payment-box">
+                        <h4 style="color: black;">Ensalada(Chicken)</h4>
+                        <div>
+                            <p>Quantity<span>1</span></p>
+                            <p>#2500</p>
+                        </div>
+                    </div><br>
+                    <div class="payment-box">
+                        <h4 style="color: black;">Taco(Goat)</h4>
+                        <div>
+                            <p>Quantity<span>1</span></p>
+                            <p>#2500</p>
+                        </div>
+                    </div><br>
+                    <div class="payment-box">
+                        <h4 style="color: black;">Buritto</h4>
+                        <div>
+                            <p>Quantity<span>1</span></p>
+                            <p>#2000</p>
+                        </div>
+                    </div><br>
+                    <div class="payment-box">
+                        <h4>Total</h4>
+                        <p>#7000</p>
+                    </div>
+
+                    <div class="payment-box">
+                        <button style="border-radius: 2em;">Back</button>
+                        <button style="border-radius: 2em; background: blue;">Pay #7000</button>
+                    </div>
+                    </div>
+                </form>
+            </div>
+</body>
+</html>
