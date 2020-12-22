@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "ozfood",
+    "username": "postgres",
     "password": null,
     "database": "ozfoods",
     "host": "127.0.0.1",
@@ -8,7 +8,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "ozfood",
+    "username": "postgres",
     "password": null,
     "database": "ozfoods-test",
     "host": "127.0.0.1",
@@ -16,7 +16,7 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "ozfood",
+    "username": "postgres",
     "password": null,
     "database": "todos-production",
     "host": "127.0.0.1",
