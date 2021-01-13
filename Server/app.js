@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 
+
 // Set up the express app
 const app = express();
 
@@ -18,6 +19,6 @@ app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to OZ Food Restaurant..',
 }));
 
-app.listen();
+app.listen( console.log('Server as started at port 8000') );
 
 module.exports = app;

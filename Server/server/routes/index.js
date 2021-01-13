@@ -7,4 +7,9 @@ module.exports = (app) => {
     }));
 
     app.post('/api/v1/signup', usersController.create);
+    app.post('/api/v1/login', usersController.login)
+
 };
+
+
+
