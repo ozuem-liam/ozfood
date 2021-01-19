@@ -1,10 +1,14 @@
-const User = require('../models/user');
+const models = require("../models");
+const messages = require("../utils/messages");
+const validateId = require("../utils/validateId")
+const User = models.user;
 const config = require("../config/auth.config");
-let Role = User.role;
 const db = require('../models/index')
 
 const bcrypt = require('bcryptjs');
 let jwt = require("jsonwebtoken");
+const { token } = require("morgan");
+const app = require("../../app");
 
 // console.log(`what is ${Op}`);
 
@@ -23,6 +27,14 @@ module.exports = {
             emailaddress,
             password,
         }
+
+        User.findOne({
+          where: {
+            emailaddress
+          }
+        }).then(user => {
+          return res.status(400).send("Email Exists")
+        }).catch(err => res.status(500))
 
         // hash password
             bcrypt.genSalt(10, (err,salt) => {
@@ -70,48 +82,129 @@ module.exports = {
 // }
 
 
-     login(req, res) {
-        const {emailaddress,password} = req.body;
-         User.findOne({emailaddress})
-           .then(user => {
-             if (!user) {
-               return res.status(404).send({ message: "User Not found." });
-             }
-     
-             let passwordIsValid = bcrypt.compareSync(
-               req.body.password,
-               user.password
-             );
-     
-             if (!passwordIsValid) {
-              return res.status(401).send({
-                 accessToken: null,
-                 message: "Invalid Password!"
-              });
+     async login(req, res) {
+        const {emailaddress, password} = req.body;
+        try {
+          const user = await User.findOne({
+            where: {
+              emailaddress
             }
+          })
+          let passwordIsValid = bcrypt.compareSync(
+              password,
+              user.password
+            );
+    
+            if (!passwordIsValid) {
+            return res.status(401).send({
+                accessToken: null,
+                message: "Invalid Password!"
+            });
+          }
+
+          let token = jwt.sign({ id: user.id }, config.secret, {
+              expiresIn: 86400 // 24 hours
+            });
+          res.send({
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            emailaddress: user.emailaddress,
+            token
+          });
+          app.post('/api/v1/login', 
+          passport.authenticate('local', { failureRedirect: '/api/v1/login' }),
+          function(req, res) {
+          res.redirect('/api/v1/signup');
+        });
+        } catch (err) {
+          console.log(err)
+        }
+        // const users = await User.find({})
+        // res.send(users)
+        //  User.find({}).then(users => {
+        //   res.send(users)
+        //  })
+            //  if (!user) {
+            //    return res.status(404).send({ message: "User Not found." });
+            //  }
+             
      
-             let token = jwt.sign({ id: user.id }, config.secret, {
-               expiresIn: 86400 // 24 hours
-             });
+            //  let passwordIsValid = bcrypt.compareSync(
+            //    password,
+            //    user.password
+            //  );
+     
+            //  if (!passwordIsValid) {
+            //   return res.status(401).send({
+            //      accessToken: null,
+            //      message: "Invalid Password!"
+            //   });
+            // }
+     
+            //  let token = jwt.sign({ id: user.id }, config.secret, {
+            //    expiresIn: 86400 // 24 hours
+            //  });
       
-             let authorities = [];
-             user.getRoles().then(roles => {
-               for (let i = 0; i < roles.length; i++) {
-                 authorities.push("ROLE_" + roles[i].name.toUpperCase());
-               }
-               res.status(200).send({
-                 id: user.id,
-                 username: user.username,
-                 emailaddress: user.emailaddress,
-                 roles: authorities,
-                accessToken: token
-               });
-             });
-           })
-           .catch(err => {
-             res.status(500).send({ message: err.message });
-           });
-       }
+            //  let authorities = [];
+            //  user.getRoles().then(roles => {
+            //    for (let i = 0; i < roles.length; i++) {
+            //      authorities.push("ROLE_" + roles[i].name.toUpperCase());
+            //    }
+            //    res.status(200).send({
+            //      id: user.id,
+            //      username: user.username,
+            //      emailaddress: user.emailaddress,
+            //      roles: authorities,
+            //     accessToken: token
+            //    });
+            //  });
+          //  })
+          //  .catch(err => {
+          //    res.status(500).send({ message: err.message });
+          //  });
+      
+       },
+
+        //---------------------------------------------------------------------------
+        // Update password
+        //---------------------------------------------------------------------------
+  //        /**
+  //  *
+  //  * Updates user password
+  //  * @param {string} req
+  //  * @param {string} res
+  //  * 
+  //  * @returns {object} req, res
+  //  */
+  updatePassword(req, res) {
+    const userReturnId = validateId.validate(req.body.userId);
+    console.log(userReturnId);
+    if (isNaN(userReturnedId)) {
+      return res.status(400).send({
+        message: messages.invalidId 
+      });
+    }
+  }, 
+
+  async getAll(req, res) {
+    const {firstname,lastname,username,emailaddress} = req.body
+
+    const allUsers = {
+      firstname,
+      lastname,
+      username,
+      emailaddress,
+  }
+  await User.get({}, (err, users) => {
+    if (!err) {
+      res.send(users);
+    } else {
+      console.log('Error', err);
+    }
+  });
+
+  }
 };
 
 
