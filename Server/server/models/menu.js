@@ -1,40 +1,54 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class menu extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      menu.belongsTo(models.User, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-      });
-      menu.hasMany(models.PurchasedMeal, {
-        foreignKey: 'menuId',
-        as: 'purchasedmeal',
-      });
-      menu.belongsTo(models.Category, {
-        foreignKey: 'categoryId',
-        onDelete: 'CASCADE',
-      });
-    };
-  };
-  menu.init({
-    mealname: DataTypes.STRING,
-    price: DataTypes.STRING,
-    category: DataTypes.STRING,
-    image: DataTypes.STRING,
-    discription: DataTypes.STRING,
-    review: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'menu',
+  const menu = sequelize.define('menu', {
+    mealname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    price: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    review: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    },
+    categoryId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true
+    }
   });
+
+  // User.associate = (models) => {
+  //   // associations can be defined here
+  //   User.hasMany(models.menu, {
+  //     foreignKey: 'userId',
+  //     as: 'menu',
+  //   });
+  //   User.hasMany(models.PurchasedMeal, {
+  //     foreignKey: 'userId',
+  //     as: 'purchasedmeal',
+  //   });
+  //   User.hasMany(models.Category, {
+  //     foreignKey: 'userId',
+  //     as: 'category',
+  //   });
+  // };
+  
+  console.log(menu === sequelize.models.menu); // true 
   return menu;
 };

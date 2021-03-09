@@ -1,25 +1,29 @@
-const models = require("../models");
+
 const messages = require("../utils/messages");
-const validateId = require("../utils/validateId")
-const User = models.user;
+
+const validateId = require("../utils/validateId");
+
+const User = require("../models").User;
+
 const config = require("../config/auth.config");
-const db = require('../models/index')
+
 
 const bcrypt = require('bcryptjs');
 let jwt = require("jsonwebtoken");
 const { token } = require("morgan");
 const app = require("../../app");
 
+
 // console.log(`what is ${Op}`);
 
- 
 
 // const bcrypt = require('bcrypt.js'); 
 
 module.exports = {
-    create(req, res) {
-        const {firstname,lastname,username,emailaddress,password} = req.body
-
+     create(req, res) {
+     
+        const {firstname,lastname,username,emailaddress,password} = req.body;
+       
         const createdUser = {
             firstname,
             lastname,
@@ -28,13 +32,13 @@ module.exports = {
             password,
         }
 
-        User.findOne({
-          where: {
-            emailaddress
-          }
+       User.findOne({
+        where: { 
+          emailaddress
+        }
         }).then(user => {
-          return res.status(400).send("Email Exists")
-        }).catch(err => res.status(500))
+          return res.status(400).send("Email already exists!")
+        }).catch(err => res.status(500));
 
         // hash password
             bcrypt.genSalt(10, (err,salt) => {
@@ -50,36 +54,9 @@ module.exports = {
                 
             })
 
-        // const hashPassword = async () => {
-        //     const salt = await bcrypt.genSalt(10)
-        //     const newHashedPassword = await bcrypt.hash(password,salt)
-        //      hashedPassword = newHashedPassword.toString()
-            
-        //     console.log(hashedPassword)
-        //     // return hashedPassword
-        // }
-        // hashPassword()
-        // console.log('craeted ' + createdUser.password)
-        // const newUser =  
-        return createdUser
-        
-      
-        
+        return createdUser;
         
     },
-
-//     login(req, res) {
-//         const {emailaddress,password} = req.body
-        
-//         User.findOne({emailaddress})
-//         .then((user) => {
-//              if(user) {
-//             user.matchPassword(password).then(res.json(user))
-//     } else {
-//         return res.status(401)
-//     };
-//   }
-// }
 
 
      async login(req, res) {
@@ -102,7 +79,7 @@ module.exports = {
             });
           }
 
-          let token = jwt.sign({ id: user.id }, config.secret, {
+          let token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
               expiresIn: 86400 // 24 hours
             });
           res.send({
@@ -212,84 +189,3 @@ module.exports = {
 
 
 
-
-
-    // login(req, res) {
-    //     const { emailaddress, password } = req.body;
-        
-    //    return createdUser
-    //     .findOne({
-    //         where: {
-    //             emailaddress
-    //         }
-    //     })
-    //     .then((user) => {
-    //         if (!user) {
-    //             return res.status(401).send({
-    //                 message: message.notFound
-    //             });
-    //         } else if (emailaddress === process.env.USER_EMAIL
-    //             && bcrypt.compareSync(password, User.password)) {
-    //                 // create Token
-    //                 const adminToken = jwt.sign(
-    //                     {
-    //                         username: process.env.ADMIN_NAME,
-    //                         role: 'admin',
-    //                         id: User.id
-    //                     },
-    //                     app.get('secret'),
-    //                     {
-    //                         expiresIn: 60 * 60 * 72 // token expires 72 hours
-    //                     }
-    //                 );
-    //                 return res.status(200).send({
-    //                     message: 'Welcome admin',
-    //                     username: User.username,
-    //                     token: adminToken
-    //                 });
-    //             } else if (bcrypt.compareSync(password, user.paassword)) {
-    //                 // Create Token
-    //                 const userToken = jwt.sign(
-    //                     {
-    //                         username: User.username,
-    //                         role: 'user',
-    //                         id: User.id
-    //                     },
-    //                     app.get('secret'),
-    //                     {
-    //                         expiresIn: 60 * 60 * 24 // token expires after 24 hours
-    //                     }
-    //                 );
-    //                 return res.status(200).send({
-    //                     message: 'Successfully logged in',
-    //                     username: User.username,
-    //                     token: userToken
-    //                 });
-    //             }
-    //             res.status(401).send({
-    //                 message: message.incorrectPassword
-    //             });
-    //     })
-    //     .catch((error) => {
-    //         res.status(500).send ({
-    //             message: 'So sorry! An error occured and you cannot login', error
-    //         });
-    //     });
-    // }
-
-
-// login(req, res) {
-//     const emailaddress = createdUser.find(emailaddress => user.emailaddress = req.body.emailaddress)
-//     if (emailaddress == null) {
-//         return res.status(400).send('Cannot find user')
-//     }
-//     try {
-//         if (bcrypt.compare(req.body.password, user.password)) {
-//             res.send('Login was successful')
-//         } else {
-//             res.send('Login not allowed')
-//         }
-//     } catch {
-//         res.status(500).send()
-//     }
-// }

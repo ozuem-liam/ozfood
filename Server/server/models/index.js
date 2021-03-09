@@ -19,6 +19,8 @@ if (config.use_env_variable) {
     );
 }
 
+// db.User = require("./user.js")(sequelize, Sequelize);
+
 fs
   .readdirSync(__dirname)
   .filter(file => 
@@ -26,11 +28,12 @@ fs
     (file !== basename) && 
     (file.slice(-3) === '.js'))
 
-  .forEach(file => {
-    const model = require(path.join(__dirname, file));
-    db[model.name] = model;
-  });
-
+    .forEach(file => {
+      const model = require(path.join(__dirname, file))(sequelize,  Sequelize.DataTypes);;
+      db[model.name] = model;
+      // console.log(model);
+    });
+  
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

@@ -1,5 +1,5 @@
 
-export default (sequelize, DatTypes) => {
+module.exports = (sequelize, DataTypes) => {
     const Category = sequelize.define('Category', {
         category: {
             type: DataTypes.STRING,
