@@ -22,12 +22,11 @@ const app = require("../../app");
 module.exports = {
      create(req, res) {
      
-        const {firstname,lastname,username,emailaddress,password} = req.body;
+        const {firstname,lastname,emailaddress,password} = req.body;
        
         const createdUser = {
             firstname,
             lastname,
-            username,
             emailaddress,
             password,
         }

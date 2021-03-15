@@ -9,7 +9,26 @@ const router = express.Router();
 const passport = require('passport');
 // var LocalStratgy = require('passport-local').Strategy;
 
-dotenv.config()
+var pg = require('pg');
+
+var conString = 
+"postgres://lqvlwdho:vj4IEHr-qTEPqh4WNf9QiScr0rP8FGti@otto.db.elephantsql.com:5432/lqvlwdho" //Can be found in the Details page
+var client = new pg.Client(conString);
+client.connect(function(err) {
+  if(err) {
+    return console.error('could not connect to postgres', err);
+  }
+  client.query('SELECT NOW() AS "theTime"', function(err, result) {
+    if(err) {
+      return console.error('error running query', err);
+    }
+    console.log("Connected to database");
+    // >> output: 2018-08-23T14:02:57.117Z
+    // client.end();
+  });
+});
+
+dotenv.config();
 
 // Set up the express app
 const app = express();

@@ -9,17 +9,18 @@
   },
   "test": {
     "username": "postgres",
-    "password": null,
-    "database": "ozfoods-test",
+    "password": "wilonyeka25",
+    "database": "travis",
     "host": "127.0.0.1",
-    "port": 5432,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "postgres",
-    "password": null,
-    "database": "todos-production",
-    "host": "127.0.0.1",
+    "password": "qwertyuiop",
+    "database": "ozfoods",
+    "host": "stampy.db.elephantsql.com",
+    "use_env_variable": "DATABASE_URL",
     "port": 5432,
     "dialect": "postgres"
   }

@@ -9,6 +9,7 @@ const config = require(`${__dirname}/../config/config.json`)[env];
 const db = {};
 
 let sequelize;
+console.log(process.env[config.use_env_variable]);
 if (config.use_env_variable) {
   // From the environment, extract the key with the name provided in th config as use_env_variable
   // and use that to establish a connection to our database.
